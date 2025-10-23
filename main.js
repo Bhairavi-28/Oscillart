@@ -1,13 +1,17 @@
 const input = document.getElementById('input');
-var amplitude = 40;
+const color_picker = document.getElementById('color');
+const vol_slider = document.getElementById('vol-slider');
+
+// ---------------
 var freq = 0;
 var interval = null;
 var repeat = null;
-var x = 0;
-
+var x = 0
 var timepernote = 0;
 var length = 0;
 var reset = false;
+
+// ---------------
 
 // create web audio api elements
 const audioCtx = new AudioContext();
@@ -22,6 +26,8 @@ oscillator.type = "sine";
 oscillator.start();
 gainNode.gain.value = 0;
 
+// ---------------
+
 // map notes to frequencies
 const notenames = new Map([
     ["C", 261.6],
@@ -33,13 +39,24 @@ const notenames = new Map([
     ["B", 493.9]
 ]);
 
+// ---------------
+
 // frequency function
 function frequency(pitch) {
     freq = pitch / 10000;
 
-    gainNode.gain.setValueAtTime(100, audioCtx.currentTime);
+    gainNode.gain.setValueAtTime(vol_slider.value / 100, audioCtx.currentTime);
     oscillator.frequency.setValueAtTime(pitch, audioCtx.currentTime);
-    gainNode.gain.setValueAtTime(0, audioCtx.currentTime + (timepernote / 1000) - 0.1);
+
+    setting = setInterval(() => {
+        gainNode.gain.value = vol_slider.value / 100;
+    }, 1);
+
+    setTimeout(() => {
+        clearInterval(setting);
+        gainNode.gain.value = 0;
+    }, (timepernote - 10));
+
 }
 
 // define canvas variables
@@ -68,8 +85,9 @@ function drawWave() {
 }
 
 function line() {
-    y = height / 2 + (amplitude * Math.sin(x * 2 * Math.PI * freq * (0.5 * length)));
+    y = height / 2 + ((vol_slider.value / 100 * 40) * Math.sin(x * 2 * Math.PI * freq * (0.5 * length)));
     ctx.lineTo(x, y);
+    ctx.strokeStyle = color_picker.value;
     ctx.stroke();
     x = x + 1;
 
@@ -91,7 +109,8 @@ function handle() {
 
     for (let i = 0; i < usernotes.length; i++) {
         let note = notenames.get(usernotes.charAt(i));
-        if (note) noteslist.push(note);
+        if (note) 
+            noteslist.push(note);
     }
 
     length = noteslist.length;
@@ -104,7 +123,8 @@ function handle() {
             frequency(parseInt(noteslist[j]));
             drawWave();
             j++;
-        } else {
+        } 
+        else {
             clearInterval(repeat);
         }
     }, timepernote);
