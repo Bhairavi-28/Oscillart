@@ -85,16 +85,16 @@ function drawWave() {
 }
 
 function line() {
-    y = height / 2 + ((vol_slider.value / 100 * 40) * Math.sin(x * 2 * Math.PI * freq * (0.5 * length)));
+    
+    const wavelength = width / length;
+    const amplitude = (vol_slider.value / 100) * (height / 4);
+
+    y = height / 2 + amplitude * Math.sin((x / wavelength) * 2 * Math.PI * freq * 200);
     ctx.lineTo(x, y);
     ctx.strokeStyle = color_picker.value;
     ctx.stroke();
-    x = x + 1;
+    x = x + 2;
 
-    counter++;
-    if (counter > (timepernote / 20)) {
-        clearInterval(interval);
-    }
 }
 
 // handle user input
