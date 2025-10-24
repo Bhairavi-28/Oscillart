@@ -41,8 +41,22 @@ button:hover {
     justify-content: center;
     align-items: center;
     text-align: center;
-    gap: 10px;
+    gap: 15px;
     height: 100vh;
     background: linear-gradient(135deg, #c8e7ff, #ffe4ec);
     font-family: 'Poppins', sans-serif;
+}
+
+#color {
+    width: 40px;
+    height: 40px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#vol-slider {
+    padding: 0;
+    box-sizing: border-box;
 }

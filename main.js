@@ -45,19 +45,20 @@ const notenames = new Map([
 function frequency(pitch) {
     freq = pitch / 10000;
 
+    // Volume control
+    const pixelsPerStep = 2;
+    const intervalTime = 20;
+    const totalSteps = width / pixelsPerStep;
+    const duration = (totalSteps * intervalTime) / 1000;
+
     gainNode.gain.setValueAtTime(vol_slider.value / 100, audioCtx.currentTime);
     oscillator.frequency.setValueAtTime(pitch, audioCtx.currentTime);
 
-    setting = setInterval(() => {
-        gainNode.gain.value = vol_slider.value / 100;
-    }, 1);
-
-    setTimeout(() => {
-        clearInterval(setting);
-        gainNode.gain.value = 0;
-    }, (timepernote - 10));
+    gainNode.gain.setValueAtTime(0, audioCtx.currentTime + duration);
 
 }
+
+// ---------------
 
 // define canvas variables
 var canvas = document.getElementById("canvas");
@@ -66,6 +67,8 @@ var width = ctx.canvas.width;
 var height = ctx.canvas.height;
 
 var counter = 0;
+
+// ---------------
 
 // drawWave function
 function drawWave() {
@@ -84,18 +87,22 @@ function drawWave() {
     interval = setInterval(line, 20);
 }
 
+// ---------------
+
 function line() {
     
     const wavelength = width / length;
     const amplitude = (vol_slider.value / 100) * (height / 4);
 
-    y = height / 2 + amplitude * Math.sin((x / wavelength) * 2 * Math.PI * freq * 200);
+    y = height / 2 + amplitude * Math.sin((x / wavelength) * 1.25 * Math.PI * freq * 200);
     ctx.lineTo(x, y);
     ctx.strokeStyle = color_picker.value;
     ctx.stroke();
     x = x + 2;
 
 }
+
+// ---------------
 
 // handle user input
 function handle() {
@@ -129,6 +136,8 @@ function handle() {
         }
     }, timepernote);
 }
+
+// ---------------
 
 // event listener for the button
 document.getElementById("submit").addEventListener("click", handle);
