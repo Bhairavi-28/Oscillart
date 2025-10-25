@@ -11,14 +11,10 @@ Oscillart is an interactive music and visual art web app. Users type a sequence 
 
 ## How to Use
 1. Type a sequence of notes (C, D, E, F, G, A, B) in the input box.
-2. Click *Play* to see the waves and hear the music.
-3. Use the *volume slider* to adjust sound and wave amplitude.
-4. Choose a *wave color*, or enable dynamic rainbow mode for automatically changing colors.
-
-## Technologies Used
-- HTML, CSS, JavaScript
-- Web Audio API
-- Canvas API
+2. Click *Sumbit* to see the waves and hear the music.
+3. Use the volume slider to adjust sound and wave amplitude.
+4. Choose a color, or enable dynamic color mode for automatically changing colors.
+5. Click *Start Recording* to save your art! 
 
 ## Project URL
 https://bhairavi-28.github.io/Oscillart/
