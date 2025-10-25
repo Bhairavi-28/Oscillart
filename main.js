@@ -3,6 +3,16 @@ const color_picker = document.getElementById('color');
 const vol_slider = document.getElementById('vol-slider');
 
 // ---------------
+const color_cycle = document.getElementById('colorCycle');
+let hue = 0;
+let dynamicColor = false;
+
+color_cycle.addEventListener('click', () => {
+    dynamicColor = !dynamicColor;
+    color_cycle.textContent = dynamicColor ? "Stop" : "Dynamic Color Mode";
+});
+
+// ---------------
 var freq = 0;
 var interval = null;
 var repeat = null;
@@ -96,9 +106,17 @@ function line() {
 
     y = height / 2 + amplitude * Math.sin((x / wavelength) * 1.25 * Math.PI * freq * 200);
     ctx.lineTo(x, y);
-    ctx.strokeStyle = color_picker.value;
+    
+    if (dynamicColor) {
+        ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+        hue += 2 % 360;
+    }
+    else {
+        ctx.strokeStyle = color_picker.value;
+    }
+
     ctx.stroke();
-    x = x + 2;
+    x += 2;
 
 }
 
